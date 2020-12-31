@@ -16,6 +16,10 @@ object Main {
         val end = Coords(3, 3)
         val solver = new MazeSolver(maze, init, end)
 
+        solver.printMaze()
+
+        println("-----------")
+
         solver.solveAndPrint()
     }
 }
