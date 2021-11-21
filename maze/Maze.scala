@@ -1,8 +1,9 @@
 package maze
 
 import scala.collection.mutable.ListBuffer
+import pretty._
 
-class Maze(private var maze: Array[Array[MazePosition.Type]], private var init: Coords, private var end: Coords) {
+class Maze(private var maze: Array[Array[MazePosition.Type]], private var init: Coords, private var end: Coords) extends Prettifiable {
   private  val solution: ListBuffer[Coords] = ListBuffer()
   private val rows = maze.length
   private val cols = maze(0).length
@@ -51,4 +52,32 @@ class Maze(private var maze: Array[Array[MazePosition.Type]], private var init: 
 
   private def isFree(c: Coords) =
     maze(c.x)(c.y) == MazePosition.Free
+
+  def toPretty(): String = {
+    val output = Array.ofDim[String](rows, cols)
+    for (i <- 0 until rows) {
+      for (j <- 0 until cols) {
+        output(i)(j) = maze(i)(j).toString()
+      }
+    }
+
+    for (c <- solution)
+      output(c.x)(c.y) = MazePosition.Taken.toString()
+
+    var s = "╔"
+    for (i <- 0 until 3*cols) {
+      s += "═"
+    }
+    s += "╗\n"
+    s += output.map(row => {
+      "║" + row.map(x => MazePosition.toTerminal(x)).mkString + "║"
+    }).mkString("\n")
+    s += "\n╚"
+    for (i <- 0 until 3*cols) {
+      s += "═"
+    }
+    s += "╝\n"
+
+    s
+  }
 }

@@ -1,3 +1,3 @@
 package maze
 
-case class Coords(val x: Int, val y: Int)
+final case class Coords(val x: Int, val y: Int)
